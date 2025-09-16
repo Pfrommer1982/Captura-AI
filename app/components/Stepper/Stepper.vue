@@ -284,7 +284,9 @@ async function startProcessing() {
     formData.append('style', selectedStyle.value)
     formData.append('language', selectedLanguage.value)
 
-    const res: any = await $fetch('/api/describe', {
+    const config = useRuntimeConfig()
+    const base = config.public.apiBase || ''
+    const res: any = await $fetch(base + '/api/describe', {
       method: 'POST',
       body: formData
     })

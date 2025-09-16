@@ -13,7 +13,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     openaiApiKey: process.env.OPENAI_API_KEY,
     public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://pfrommer1982.github.io/Captura-AI/',
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || '',
       defaultTitle: 'Captura AI',
       defaultDescription: 'Choose a style, upload a photo, and let AI generate a smart commercial description.'
     }
@@ -28,11 +29,19 @@ export default defineNuxtConfig({
 
   css: ["~/assets/css/main.css"],
 
+  // Alles vooraf prerenderen
   routeRules: {
     "/": { prerender: true },
   },
 
+  nitro: {
+    preset: 'github-pages' // belangrijk voor GitHub Pages
+  },
+
   app: {
+    // *** GitHub Pages base URL ***
+    baseURL: '/Captura-AI/',
+
     head: {
       title: "Captura AI",
       titleTemplate: "Captura AI",
@@ -46,11 +55,11 @@ export default defineNuxtConfig({
         { name: "twitter:site", content: "@" }
       ],
       link: [
-        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-        { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" },
-        { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" },
-        { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
-        { rel: "manifest", href: "/site.webmanifest" }
+        { rel: "icon", type: "image/x-icon", href: "favicon.ico" },
+        { rel: "icon", type: "image/png", sizes: "32x32", href: "favicon-32x32.png" },
+        { rel: "icon", type: "image/png", sizes: "16x16", href: "favicon-16x16.png" },
+        { rel: "apple-touch-icon", sizes: "180x180", href: "apple-touch-icon.png" },
+        { rel: "manifest", href: "site.webmanifest" }
       ]
     },
   },
