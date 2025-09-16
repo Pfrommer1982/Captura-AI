@@ -5,18 +5,18 @@
   >
     <nav class="container mx-auto flex items-center justify-between px-6 py-3">
       <!-- Logo -->
-      <NuxtLink to="/">
+      <a href="/">
         <div class="flex items-center gap-2">
           <img src="/capturaAI.png" alt="capturaAI logo" class="w-8">
           <h1 class="ml-1 text-2xl font-bold tracking-tight">Captura AI</h1>
         </div>
-      </NuxtLink>
+      </a>
 
       <!-- Right: icons and theme toggle -->
       <div class="flex items-center gap-4">
         <!-- Dynamic Button (desktop only) -->
         <UButton
-          :to="isHowItWorksPage ? '/' : '/how-it-works'"
+          :to="isHowItWorksPage ? '/' : '/how-it-works/'"
           :icon="isHowItWorksPage ? 'i-lucide-arrow-left' : 'i-lucide-arrow-right'"
           :trailing="!isHowItWorksPage"
           :leading="isHowItWorksPage"

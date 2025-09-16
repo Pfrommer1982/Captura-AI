@@ -221,10 +221,10 @@
               <p class="text-gray-600 dark:text-gray-300 mb-6">
                 Upload your first image and experience the power of AI‑driven descriptions.
               </p>
-              <NuxtLink to="/" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-violet-600 to-pink-600 text-white font-semibold rounded-xl hover:from-violet-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+              <a href="/" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-violet-600 to-pink-600 text-white font-semibold rounded-xl hover:from-violet-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                 <Icon name="lucide:arrow-right" size="20" />
                 Go to the app
-              </NuxtLink>
+              </a>
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@
           <h3 class="font-semibold mb-4 text-gray-800 dark:text-gray-200">Pages</h3>
           <ul class="space-y-2">
             <li><NuxtLink to="/" class="text-gray-600 dark:text-gray-400 hover:text-indigo-500">Home</NuxtLink></li>
-            <li><a href="/how-it-works" class="text-gray-600 dark:text-gray-400 hover:text-indigo-500">How it works <span > <Icon name="heroicons:exclaimation-circle" size="12" class="-translate-y-1"/></span></a></li>
+            <li><NuxtLink to="/how-it-works/" class="text-gray-600 dark:text-gray-400 hover:text-indigo-500">How it works <span > <Icon name="heroicons:exclaimation-circle" size="12" class="-translate-y-1"/></span></NuxtLink></li>
 
           </ul>
         </div>
@@ -34,7 +34,7 @@
           <h3 class="font-semibold mb-4 text-gray-800 dark:text-gray-200">Legal</h3>
           <p class="text-gray-600 dark:text-gray-400 text-sm">
             &copy; 2025 Captura AI. All rights reserved.<br />
-            Use of this app is at your own risk. <br /> Please read our <NuxtLink to="/privacy" class="text-indigo-500">Privacy Policy</NuxtLink> and <NuxtLink to="/terms" class="text-indigo-500">Terms of Service</NuxtLink>.
+            Use of this app is at your own risk. <br /> Please read our <NuxtLink to="/privacy/" class="text-indigo-500">Privacy Policy</NuxtLink> and <NuxtLink to="/terms/" class="text-indigo-500">Terms of Service</NuxtLink>.
           </p>
         </div>
       </div>

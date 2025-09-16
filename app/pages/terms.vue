@@ -46,7 +46,7 @@
 
           <h2 class="mt-12 text-2xl font-bold text-gray-900 dark:text-white">5. Privacy</h2>
           <p class="mt-6">
-            Our data practices are described in the <NuxtLink to="/privacy">Privacy Policy</NuxtLink>. By using the service, you consent to the processing described there.
+            Our data practices are described in the <NuxtLink to="/privacy/">Privacy Policy</NuxtLink>. By using the service, you consent to the processing described there.
           </p>
 
           <h2 class="mt-12 text-2xl font-bold text-gray-900 dark:text-white">6. Third-party services</h2>

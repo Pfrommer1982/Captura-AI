@@ -2,7 +2,7 @@ import { defineEventHandler } from 'h3'
 
 export default defineEventHandler((event) => {
   const config = useRuntimeConfig()
-  const siteUrl = (config.public as any)?.siteUrl || 'http://localhost:3000'
+  const siteUrl = (config.public as any)?.siteUrl || ''
 
   const content = [
     'User-agent: *',

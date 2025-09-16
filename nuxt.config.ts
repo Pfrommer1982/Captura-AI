@@ -32,10 +32,20 @@ export default defineNuxtConfig({
   // Alles vooraf prerenderen
   routeRules: {
     "/": { prerender: true },
+    "/privacy": { prerender: true },
+    "/terms": { prerender: true },
+    "/how-it-works": { prerender: true }
   },
 
   nitro: {
-    preset: 'github-pages' // belangrijk voor GitHub Pages
+    preset: 'github-pages', // belangrijk voor GitHub Pages
+    prerender: {
+      // Avoid crawling unexpected links (e.g. from SEO/OG modules)
+      crawlLinks: false,
+      routes: ["/", "/privacy", "/terms", "/how-it-works"],
+      // Don't fail the build if a route errors during generation
+      failOnError: false
+    }
   },
 
   app: {
@@ -62,6 +72,32 @@ export default defineNuxtConfig({
         { rel: "manifest", href: "site.webmanifest" }
       ]
     },
+  },
+
+  // Disable sourcemaps to avoid Tailwind Vite plugin sourcemap warnings
+  vite: {
+    css: { devSourcemap: false },
+    build: { sourcemap: false }
+  },
+
+  // Also ensure Nuxt doesn't emit client/server sourcemaps
+  sourcemap: { client: false, server: false },
+
+  // Site config: prefer trailing slashes for GitHub Pages static hosting and set absolute site URL
+  site: { url: 'https://pfrommer1982.github.io/Captura-AI/', trailingSlash: true },
+
+  // Disable robots.txt generation (baseURL is a subpath on GitHub Pages)
+  robots: { robotsTxt: false },
+
+  // Disable sitemap XSL to prevent /__sitemap__/style.xsl prerender errors with baseURL
+  sitemap: { xsl: false },
+
+  // Nuxt Link Checker: ignore uppercase in URLs due to repo base path
+  linkChecker: {
+    skipInspections: ['no-uppercase-chars'],
+    runOnBuild: true,
+    failOnError: false,
+    showLiveInspections: true
   },
 
   compatibilityDate: "2025-01-15",

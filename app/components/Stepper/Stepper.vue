@@ -84,6 +84,7 @@ import { ref, computed, onUnmounted, defineAsyncComponent } from 'vue'
 import type { FilePreview } from '../../types'
 import { descriptionOptions, languageOptions, stepperItems } from '../../composables/useImageAnalyzer'
 
+
 // Lazy import step subcomponents for better code-splitting
 const StepChooseStyle = defineAsyncComponent(() => import('./StepChooseStyle.vue'))
 const StepUploadPhoto = defineAsyncComponent(() => import('./StepUploadPhoto.vue'))

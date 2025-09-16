@@ -50,9 +50,9 @@
                 <h3 class="text-xs font-semibold mb-3 text-gray-600 dark:text-gray-400 uppercase tracking-wider">Pages</h3>
                 <nav class="space-y-3 text-xl">
                   <NuxtLink @click="close" to="/" class="block text-gray-900 dark:text-gray-100 hover:text-indigo-500">Home</NuxtLink>
-                  <NuxtLink @click="close" to="/how-it-works" class="block text-gray-900 dark:text-gray-100 hover:text-indigo-500">How it works</NuxtLink>
-                  <NuxtLink @click="close" to="/privacy" class="block text-gray-900 dark:text-gray-100 hover:text-indigo-500">Privacy</NuxtLink>
-                  <NuxtLink @click="close" to="/terms" class="block text-gray-900 dark:text-gray-100 hover:text-indigo-500">Terms</NuxtLink>
+                  <NuxtLink @click="close" to="/how-it-works/" class="block text-gray-900 dark:text-gray-100 hover:text-indigo-500">How it works</NuxtLink>
+                  <NuxtLink @click="close" to="/privacy/" class="block text-gray-900 dark:text-gray-100 hover:text-indigo-500">Privacy</NuxtLink>
+                  <NuxtLink @click="close" to="/terms/" class="block text-gray-900 dark:text-gray-100 hover:text-indigo-500">Terms</NuxtLink>
                 </nav>
               </div>
 
@@ -76,9 +76,9 @@
               <div class="fixed bottom-4 left-4 right-4 max-w-prose text-center mx-auto">
                 <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                   © 2025 Captura AI. Please read our
-                  <NuxtLink @click="close" to="/privacy" class="text-indigo-500">Privacy Policy</NuxtLink>
+                  <NuxtLink @click="close" to="/privacy/" class="text-indigo-500">Privacy Policy</NuxtLink>
                   and
-                  <NuxtLink @click="close" to="/terms" class="text-indigo-500">Terms</NuxtLink>.
+                  <NuxtLink @click="close" to="/terms/" class="text-indigo-500">Terms</NuxtLink>.
                   AI-generated descriptions may differ from reality.
                 </p>
               </div>
