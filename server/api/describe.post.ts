@@ -111,33 +111,18 @@ export default defineEventHandler(async (event: H3Event) => {
       return { error: 'Method Not Allowed' };
     }
 
-    // CORS: allow same-origin automatically + env-configured origins
+    // CORS: permissive for preview domains and same-origin
     const origin = getRequestHeader(event, 'origin') || '';
-    const host = getRequestHeader(event, 'host') || '';
-    const envOrigins = (process.env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean);
-    const allowedOrigins = envOrigins.length ? envOrigins : [
-      'http://localhost:3000',
-      'http://127.0.0.1:3000'
-    ];
-    const sameOrigin = (() => {
-      try { return origin && new URL(origin).host === host; } catch { return false; }
-    })();
-
-    if (origin && (sameOrigin || allowedOrigins.includes(origin))) {
+    if (origin) {
       event.node.res.setHeader('Access-Control-Allow-Origin', origin);
       event.node.res.setHeader('Vary', 'Origin');
       event.node.res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-      event.node.res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+      event.node.res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
       event.node.res.setHeader('Access-Control-Allow-Credentials', 'true');
       if (method === 'OPTIONS') {
         event.node.res.statusCode = 204;
         return '';
       }
-    } else if (origin) {
-      return { error: 'Origin not allowed' };
-    } else if (!IS_DEV) {
-      // In production: reject requests without Origin header (helps prevent abuse)
-      return { error: 'Origin header required' };
     }
 
     // Security headers (API-only)
