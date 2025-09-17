@@ -242,11 +242,65 @@ function selectStyle(style: string) {
 }
 
 /** === File Handling === */
-function onFileChange(e: Event) {
+async function compressImage(input: File, opts?: { maxW?: number; maxH?: number; quality?: number }) {
+  const maxW = opts?.maxW ?? 1600
+  const maxH = opts?.maxH ?? 1600
+  const quality = opts?.quality ?? 0.82
+
+  // If it's already small, skip
+  if (input.size <= 1.5 * 1024 * 1024) return input
+
+  const dataUrl = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(String(reader.result))
+    reader.onerror = reject
+    reader.readAsDataURL(input)
+  })
+
+  const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const i = new Image()
+    i.onload = () => resolve(i)
+    i.onerror = reject
+    i.src = dataUrl
+  })
+
+  let { width, height } = img
+  const ratio = Math.min(maxW / width, maxH / height, 1)
+  const targetW = Math.round(width * ratio)
+  const targetH = Math.round(height * ratio)
+
+  const canvas = document.createElement('canvas')
+  canvas.width = targetW
+  canvas.height = targetH
+  const ctx = canvas.getContext('2d')!
+  ctx.drawImage(img, 0, 0, targetW, targetH)
+
+  const blob: Blob | null = await new Promise((resolve) =>
+    canvas.toBlob((b) => resolve(b), 'image/jpeg', quality)
+  )
+
+  if (!blob) return input
+  // Only replace if we actually reduced size
+  if (blob.size >= input.size) return input
+
+  const safeName = (input.name.replace(/\.(png|jpg|jpeg|webp)$/i, '') || 'photo') + '.jpg'
+  return new File([blob], safeName, { type: 'image/jpeg' })
+}
+
+async function onFileChange(e: Event) {
   const target = e.target as HTMLInputElement
   if (!target.files || target.files.length === 0) return
 
-  const selected = target.files[0] as File
+  const raw = target.files[0] as File
+
+  // Compress big images (especially from mobile camera)
+  let selected = raw
+  try {
+    selected = await compressImage(raw, { maxW: 1600, maxH: 1600, quality: 0.82 })
+  } catch (err) {
+    console.warn('Compression skipped:', err)
+  }
+
   if (file.value) URL.revokeObjectURL(file.value.url)
 
   file.value = {
