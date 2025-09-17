@@ -50,7 +50,7 @@ async function checkRateLimitRedis(event: H3Event) {
   }
 }
 
-const BUDGET_FILE = path.resolve("./.monthlyBudget.json");
+const BUDGET_FILE = path.join(process.env.TMPDIR || os.tmpdir(), ".monthlyBudget.json");
 const MAX_MONTHLY_SPEND = 1.9;
 const ESTIMATED_COST_PER_TEXT = 0.00008;
 const ESTIMATED_COST_PER_IMAGE = 0.02;
@@ -77,14 +77,23 @@ interface FileResult {
 }
 
 function loadBudget(): BudgetData {
-  if (!fs.existsSync(BUDGET_FILE))
+  try {
+    if (!fs.existsSync(BUDGET_FILE))
+      return { spend: 0, month: new Date().getMonth() };
+    const data: BudgetData = JSON.parse(fs.readFileSync(BUDGET_FILE, "utf-8"));
+    const currentMonth = new Date().getMonth();
+    return data.month !== currentMonth ? { spend: 0, month: currentMonth } : data;
+  } catch {
+    // Fail-open for serverless environments
     return { spend: 0, month: new Date().getMonth() };
-  const data: BudgetData = JSON.parse(fs.readFileSync(BUDGET_FILE, "utf-8"));
-  const currentMonth = new Date().getMonth();
-  return data.month !== currentMonth ? { spend: 0, month: currentMonth } : data;
+  }
 }
 function saveBudget(data: BudgetData) {
-  fs.writeFileSync(BUDGET_FILE, JSON.stringify(data));
+  try {
+    fs.writeFileSync(BUDGET_FILE, JSON.stringify(data));
+  } catch (e: any) {
+    console.warn("Budget save skipped:", e?.message);
+  }
 }
 function getFieldValue(files: any[], name: string): string | null {
   const field = files.find((f) => f.name === name);
@@ -102,15 +111,19 @@ export default defineEventHandler(async (event: H3Event) => {
       return { error: 'Method Not Allowed' };
     }
 
-    // Optional: simple origin + CORS headers (adjust for your domains)
+    // CORS: allow same-origin automatically + env-configured origins
     const origin = getRequestHeader(event, 'origin') || '';
+    const host = getRequestHeader(event, 'host') || '';
     const envOrigins = (process.env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean);
     const allowedOrigins = envOrigins.length ? envOrigins : [
       'http://localhost:3000',
       'http://127.0.0.1:3000'
     ];
+    const sameOrigin = (() => {
+      try { return origin && new URL(origin).host === host; } catch { return false; }
+    })();
 
-    if (origin && allowedOrigins.includes(origin)) {
+    if (origin && (sameOrigin || allowedOrigins.includes(origin))) {
       event.node.res.setHeader('Access-Control-Allow-Origin', origin);
       event.node.res.setHeader('Vary', 'Origin');
       event.node.res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');

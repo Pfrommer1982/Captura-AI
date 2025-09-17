@@ -85,6 +85,7 @@ import type { FilePreview } from '../../types'
 import { descriptionOptions, languageOptions, stepperItems } from '../../composables/useImageAnalyzer'
 
 
+
 // Lazy import step subcomponents for better code-splitting
 const StepChooseStyle = defineAsyncComponent(() => import('./StepChooseStyle.vue'))
 const StepUploadPhoto = defineAsyncComponent(() => import('./StepUploadPhoto.vue'))
@@ -285,7 +286,8 @@ async function startProcessing() {
     formData.append('style', selectedStyle.value)
     formData.append('language', selectedLanguage.value)
 
-    const config = useRuntimeConfig()
+
+    const config  = useRuntimeConfig()
     const base = config.public.apiBase || ''
     const res: any = await $fetch(base + '/api/describe', {
       method: 'POST',
