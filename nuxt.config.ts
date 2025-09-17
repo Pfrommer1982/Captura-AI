@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     openaiApiKey: process.env.OPENAI_API_KEY,
     public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://pfrommer1982.github.io/Captura-AI/',
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
       apiBase: process.env.NUXT_PUBLIC_API_BASE || '',
       defaultTitle: 'Captura AI',
       defaultDescription: 'Choose a style, upload a photo, and let AI generate a smart commercial description.'
@@ -38,7 +38,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'github-pages', // belangrijk voor GitHub Pages
+    preset: 'vercel', // deploy target is Vercel
     prerender: {
       // Avoid crawling unexpected links (e.g. from SEO/OG modules)
       crawlLinks: false,
@@ -49,8 +49,8 @@ export default defineNuxtConfig({
   },
 
   app: {
-    // *** GitHub Pages base URL ***
-    baseURL: '/Captura-AI/',
+    // Vercel runs at domain root, no subpath base
+    baseURL: '/',
 
     head: {
       title: "Captura AI",
@@ -83,8 +83,8 @@ export default defineNuxtConfig({
   // Also ensure Nuxt doesn't emit client/server sourcemaps
   sourcemap: { client: false, server: false },
 
-  // Site config: prefer trailing slashes for GitHub Pages static hosting and set absolute site URL
-  site: { url: 'https://pfrommer1982.github.io/Captura-AI/', trailingSlash: true },
+  // Site config for Vercel: set URL via env, keep trailingSlash if you want `/about/` style
+  site: { url: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000', trailingSlash: true },
 
   // Disable robots.txt generation (baseURL is a subpath on GitHub Pages)
   robots: { robotsTxt: false },
